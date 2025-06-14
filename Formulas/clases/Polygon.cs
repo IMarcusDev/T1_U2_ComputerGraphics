@@ -90,7 +90,6 @@ namespace Formulas.clases
 
         public void SetCenter(PointF newCenter)
         {
-            // No asigno por si el valor se conserva en memoria
             this.Center.X = newCenter.X;
             this.Center.Y = newCenter.Y;
         }

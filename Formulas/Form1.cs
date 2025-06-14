@@ -24,6 +24,7 @@ namespace Formulas
         private int currentFrame = 0;
         private Timer animationTimer;
         private int IndexAnimation = 0;
+        private PointF[] lastPolygonOutline = null;
 
         public Form1()
         {
@@ -54,6 +55,25 @@ namespace Formulas
             }
         }
 
+        private void ensureFramesUpToFill(int target, Point[] points)
+        {
+            for (int i = 0; i < target && i < points.Length; i++)
+            {
+                int colorIndex = i % colors.Count;
+                Color currentColor = this.colors[colorIndex];
+                int index = i;
+
+                framesCopy.Add(g =>
+                {
+                    using (SolidBrush brush = new SolidBrush(currentColor))
+                    {
+                        g.FillRectangle(brush, points[index].X, points[index].Y, 1, 1);
+                    }
+                });
+            }
+        }
+
+
         private void PlayFrames()
         {
             if (framesCopy.Count == 0)
@@ -81,7 +101,6 @@ namespace Formulas
             else
             {
                 animationTimer.Stop();
-                // Opcional: framesCopy.Clear();
             }
         }
 
@@ -94,6 +113,11 @@ namespace Formulas
                 for (int i = 0; i < IndexAnimation && i < framesCopy.Count; i++)
                 {
                     framesCopy[i](g);
+                }
+
+                if (lastPolygonOutline != null)
+                {
+                    g.DrawPolygon(pen, lastPolygonOutline);
                 }
             }
             picCanvas.Invalidate();
@@ -169,19 +193,27 @@ namespace Formulas
         private void button4_Click(object sender, EventArgs e)
         {
             int numLados = int.Parse(txtNumLados.Text);
-            polygon = new Polygon(numLados, 100);
+            polygon = new Polygon(numLados, 20);
             polygon.SetCenter(getCenter());
             PointF[] points = polygon.GetOutline();
+
+            lastPolygonOutline = points;
 
             using (Graphics g = Graphics.FromImage(picCanvasCopy))
             {
                 g.Clear(Color.White);
                 g.DrawPolygon(pen, points);
             }
-            picCanvas.Invalidate();
 
-            List<Point> filledPixels = GetNonWhitePixels(picCanvasCopy);
+            Point seed = new Point((int)getCenter().X, (int)getCenter().Y);
+
+            Point[] filledPixels = FillAlgorithm.Recursive_Flood_Fill(picCanvasCopy, seed.X, seed.Y, Color.Blue);
+
+            framesCopy.Clear();
+            ensureFramesUpToFill(filledPixels.Length, filledPixels);
+            PlayFrames();
         }
+
 
     }
 }
