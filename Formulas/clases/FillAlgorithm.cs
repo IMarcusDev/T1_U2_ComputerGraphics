@@ -41,10 +41,10 @@ namespace Formulas.clases
             result.Add(p);
             visited.Add(p);
 
-            RecursiveFill(canvas, x + 1, y, targetColor, fillColor, visited, result, depth + 1, maxDepth);
-            RecursiveFill(canvas, x - 1, y, targetColor, fillColor, visited, result, depth + 1, maxDepth);
             RecursiveFill(canvas, x, y + 1, targetColor, fillColor, visited, result, depth + 1, maxDepth);
+            RecursiveFill(canvas, x + 1, y, targetColor, fillColor, visited, result, depth + 1, maxDepth);
             RecursiveFill(canvas, x, y - 1, targetColor, fillColor, visited, result, depth + 1, maxDepth);
+            RecursiveFill(canvas, x - 1, y, targetColor, fillColor, visited, result, depth + 1, maxDepth);
         }
     }
 }

@@ -51,16 +51,43 @@
     <Compile Include="clases\LineBresenham.cs" />
     <Compile Include="clases\LineFormula.cs" />
     <Compile Include="clases\Polygon.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Forms\InputsCircunference.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\InputsCircunference.Designer.cs">
+      <DependentUpon>InputsCircunference.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputsLines.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\InputsLines.Designer.cs">
+      <DependentUpon>InputsLines.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputsPolygon.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\InputsPolygon.Designer.cs">
+      <DependentUpon>InputsPolygon.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="Main.Designer.cs">
+      <DependentUpon>Main.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\InputsCircunference.resx">
+      <DependentUpon>InputsCircunference.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InputsLines.resx">
+      <DependentUpon>InputsLines.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\InputsPolygon.resx">
+      <DependentUpon>InputsPolygon.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Main.resx">
+      <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

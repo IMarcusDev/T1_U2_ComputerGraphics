@@ -8,34 +8,65 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Formulas.clases;
+using Formulas.Forms;
 
 namespace Formulas
 {
-    public partial class Form1 : Form
+    public partial class Main : Form
     {
         private LineFormula lineFormula;
         private LineBresenham lineBresenham;
         private Polygon polygon;
-        private Graphics graphics;
         private Pen pen;
         Bitmap picCanvasCopy;
         List<Color> colors = new List<Color> { Color.Violet, Color.Red, Color.Purple, Color.Green, Color.DarkGreen, Color.DarkOrange, Color.Orange, Color.Peru, Color.Pink, Color.Tan };
         List<Action<Graphics>> framesCopy = new List<Action<Graphics>>();
-        private int currentFrame = 0;
         private Timer animationTimer;
         private int IndexAnimation = 0;
         private PointF[] lastPolygonOutline = null;
 
-        public Form1()
+        private InputsLines inputsLines;
+        private InputsPolygon inputsPolygon;
+        private InputsCircunference inputsCircunference;
+
+        public Main()
         {
             InitializeComponent();
-            lineFormula = new LineFormula(new Point(3,4), new Point(13,11));
-            lineBresenham = new LineBresenham(new Point(1, 2), new Point(4, 20));
-            graphics = picCanvas.CreateGraphics();
             pen = new Pen(Color.Black, 1);
             picCanvasCopy = new Bitmap(picCanvas.Width, picCanvas.Height);
             picCanvas.Image = picCanvasCopy;
+
+            inputsLines = new InputsLines();
+            inputsPolygon = new InputsPolygon(getCenter());
+            inputsCircunference = new InputsCircunference();
+
+            inputsLines.OnDrawClicked += InputsLines_OnDrawClicked;
+            inputsPolygon.OnDrawClicked += InputsPolygon_OnDrawClicked;
+            inputsCircunference.OnDrawClicked += CircunferenceBresenham_OnDrawClicked;
         }
+
+        private void openChildForm(object childForm)
+        {
+            if (childForm == null)
+            {
+                MessageBox.Show("El formulario no puede ser nulo.", "Error");
+                return;
+            }
+
+            if (this.panelContainer.Controls.Count > 0) this.panelContainer.Controls.RemoveAt(0);
+            UserControl uc = childForm as UserControl;
+            if (uc != null)
+            {
+                uc.Dock = DockStyle.Fill;
+                this.panelContainer.Controls.Add(uc);
+                this.panelContainer.Tag = uc;
+            }
+            else
+            {
+                MessageBox.Show("El objeto no es un UserControl válido.", "Error");
+            }
+        }
+
 
         private void ensureFramesUpTo(int target, Point[] points)
         {
@@ -132,22 +163,6 @@ namespace Formulas
             return center;
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Point[] linePoints = lineFormula.getLinePoints();
-            framesCopy.Clear();
-            ensureFramesUpTo(linePoints.Length, linePoints);
-            PlayFrames();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            Point[] linePoints = lineBresenham.getBresenhamPoints();
-            framesCopy.Clear();
-            ensureFramesUpTo(linePoints.Length, linePoints);
-            PlayFrames();
-        }
-
         private Point[] GetCirclePoints(int xc, int yc, int r)
         {
             List<Point> points = new List<Point>();
@@ -162,11 +177,49 @@ namespace Formulas
             return points.ToArray();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void dDAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(this.inputsLines);
+        }
+
+        private void circunferenceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(this.inputsCircunference);
+        }
+
+        private void polygonFillToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(this.inputsPolygon);
+        }
+
+        private void bresenhamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(this.inputsLines);
+        }
+
+        private void InputsLines_OnDrawClicked(Point p1, Point p2)
+        {
+            lineFormula = new LineFormula(p1, p2);
+            Point[] linePoints = lineFormula.getLinePoints();
+            framesCopy.Clear();
+            ensureFramesUpTo(linePoints.Length, linePoints);
+            PlayFrames();
+        }
+
+        private void InputsLinesBresenham_OnDrawClicked(Point p1, Point p2)
+        {
+            lineBresenham = new LineBresenham(p1, p2);
+            Point[] linePoints = lineBresenham.getBresenhamPoints();
+            framesCopy.Clear();
+            ensureFramesUpTo(linePoints.Length, linePoints);
+            PlayFrames();
+        }
+
+        private void CircunferenceBresenham_OnDrawClicked(int radio)
         {
             int xc = picCanvas.Width / 2;
             int yc = picCanvas.Height / 2;
-            int r = 100;
+            int r = radio;
 
             Point[] circlePointsUnique = GetCirclePointsUnique(xc, yc, r);
             framesCopy.Clear();
@@ -174,29 +227,10 @@ namespace Formulas
             PlayFrames();
         }
 
-        private List<Point> GetNonWhitePixels(Bitmap bmp)
+        private void InputsPolygon_OnDrawClicked(int lados, float magnitud, PointF center)
         {
-            List<Point> pixels = new List<Point>();
-            for (int y = 0; y < bmp.Height; y++)
-            {
-                for (int x = 0; x < bmp.Width; x++)
-                {
-                    if (bmp.GetPixel(x, y).ToArgb() != Color.White.ToArgb())
-                    {
-                        pixels.Add(new Point(x, y));
-                    }
-                }
-            }
-            return pixels;
-        }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            int numLados = int.Parse(txtNumLados.Text);
-            polygon = new Polygon(numLados, 20);
-            polygon.SetCenter(getCenter());
+            polygon = new Polygon(lados, magnitud, center);
             PointF[] points = polygon.GetOutline();
-
             lastPolygonOutline = points;
 
             using (Graphics g = Graphics.FromImage(picCanvasCopy))
@@ -205,7 +239,7 @@ namespace Formulas
                 g.DrawPolygon(pen, points);
             }
 
-            Point seed = new Point((int)getCenter().X, (int)getCenter().Y);
+            Point seed = new Point((int)center.X, (int)center.Y);
 
             Point[] filledPixels = FillAlgorithm.Recursive_Flood_Fill(picCanvasCopy, seed.X, seed.Y, Color.Blue);
 
@@ -213,7 +247,5 @@ namespace Formulas
             ensureFramesUpToFill(filledPixels.Length, filledPixels);
             PlayFrames();
         }
-
-
     }
 }
