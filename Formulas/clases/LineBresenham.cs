@@ -41,7 +41,7 @@ namespace Formulas.clases
                 points.Add(new Point(x0, y0));
                 if (x0 == x1 && y0 == y1) break;
                 int e2 = 2 * err;
-                if (e2 > -dy)
+                if (e2 >= -dy)
                 {
                     err -= dy;
                     x0 += sx;

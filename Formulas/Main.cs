@@ -26,6 +26,7 @@ namespace Formulas
         private PointF[] lastPolygonOutline = null;
 
         private InputsLines inputsLines;
+        private InputsLines inputsLinesBresenham;
         private InputsPolygon inputsPolygon;
         private InputsCircunference inputsCircunference;
 
@@ -37,12 +38,32 @@ namespace Formulas
             picCanvas.Image = picCanvasCopy;
 
             inputsLines = new InputsLines();
+            inputsLinesBresenham = new InputsLines();
             inputsPolygon = new InputsPolygon(getCenter());
             inputsCircunference = new InputsCircunference();
 
             inputsLines.OnDrawClicked += InputsLines_OnDrawClicked;
+            inputsLinesBresenham.OnDrawClicked += InputsLinesBresenham_OnDrawClicked;
             inputsPolygon.OnDrawClicked += InputsPolygon_OnDrawClicked;
             inputsCircunference.OnDrawClicked += CircunferenceBresenham_OnDrawClicked;
+
+            dataGridPoints.Columns.Clear();
+            dataGridPoints.Columns.Add("#", "#");
+            dataGridPoints.Columns.Add("x", "x");
+            dataGridPoints.Columns.Add("y", "y");
+
+            dataGridPoints.AllowUserToAddRows = false;
+            dataGridPoints.AllowUserToDeleteRows = false;
+            dataGridPoints.ReadOnly = true;
+        }
+
+        private void ShowPointsInGrid(Point[] points)
+        {
+            dataGridPoints.Rows.Clear();
+            for (int i = 0; i < points.Length; i++)
+            {
+                dataGridPoints.Rows.Add(i + 1, points[i].X, points[i].Y);
+            }
         }
 
         private void openChildForm(object childForm)
@@ -80,7 +101,25 @@ namespace Formulas
                 {
                     using (Pen localPen = new Pen(currentColor, 2))
                     {
-                        g.DrawRectangle(localPen, points[index].X * 20, points[index].Y * 20, 4, 4);
+                        g.DrawRectangle(localPen, points[index].X * 10, points[index].Y * 10, 4, 4);
+                    }
+                });
+            }
+        }
+
+        private void ensureFramesUpToCircunference(int target, Point[] points)
+        {
+            for (int i = 0; i < target && i < points.Length; i++)
+            {
+                int colorIndex = i % colors.Count;
+                Color currentColor = this.colors[colorIndex];
+                int index = i;
+
+                framesCopy.Add(g =>
+                {
+                    using (SolidBrush brush = new SolidBrush(currentColor))
+                    {
+                        g.FillRectangle(brush, points[index].X , points[index].Y, 3, 3);
                     }
                 });
             }
@@ -166,14 +205,14 @@ namespace Formulas
         private Point[] GetCirclePoints(int xc, int yc, int r)
         {
             List<Point> points = new List<Point>();
-            circunferenceBresenham.DrawCircle(xc, yc, r, (x, y) => points.Add(new Point(x / 20, y / 20)));
+            circunferenceBresenham.DrawCircle(xc, yc, r, (x, y) => points.Add(new Point(x, y)));
             return points.ToArray();
         }
 
         private Point[] GetCirclePointsUnique(int xc, int yc, int r)
         {
             HashSet<Point> points = new HashSet<Point>();
-            circunferenceBresenham.DrawCircle(xc, yc, r, (x, y) => points.Add(new Point(x/20, y/20)));
+            circunferenceBresenham.DrawCircle(xc, yc, r, (x, y) => points.Add(new Point(x, y)));
             return points.ToArray();
         }
 
@@ -194,37 +233,43 @@ namespace Formulas
 
         private void bresenhamToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openChildForm(this.inputsLines);
+            openChildForm(this.inputsLinesBresenham);
         }
 
         private void InputsLines_OnDrawClicked(Point p1, Point p2)
         {
+            lastPolygonOutline = null;
             lineFormula = new LineFormula(p1, p2);
             Point[] linePoints = lineFormula.getLinePoints();
             framesCopy.Clear();
             ensureFramesUpTo(linePoints.Length, linePoints);
             PlayFrames();
+            ShowPointsInGrid(linePoints);
         }
 
         private void InputsLinesBresenham_OnDrawClicked(Point p1, Point p2)
         {
+            lastPolygonOutline = null;
             lineBresenham = new LineBresenham(p1, p2);
             Point[] linePoints = lineBresenham.getBresenhamPoints();
             framesCopy.Clear();
             ensureFramesUpTo(linePoints.Length, linePoints);
             PlayFrames();
+            ShowPointsInGrid(linePoints);
         }
 
         private void CircunferenceBresenham_OnDrawClicked(int radio)
         {
+            lastPolygonOutline = null;
             int xc = picCanvas.Width / 2;
             int yc = picCanvas.Height / 2;
             int r = radio;
 
             Point[] circlePointsUnique = GetCirclePointsUnique(xc, yc, r);
             framesCopy.Clear();
-            ensureFramesUpTo(circlePointsUnique.Length, circlePointsUnique);
+            ensureFramesUpToCircunference(circlePointsUnique.Length, circlePointsUnique);
             PlayFrames();
+            ShowPointsInGrid(circlePointsUnique);
         }
 
         private void InputsPolygon_OnDrawClicked(int lados, float magnitud, PointF center)
@@ -246,6 +291,7 @@ namespace Formulas
             framesCopy.Clear();
             ensureFramesUpToFill(filledPixels.Length, filledPixels);
             PlayFrames();
+            ShowPointsInGrid(filledPixels);
         }
     }
 }

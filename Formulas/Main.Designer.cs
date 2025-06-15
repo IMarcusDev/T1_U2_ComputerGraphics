@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.picCanvas = new System.Windows.Forms.PictureBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dataGridPoints = new System.Windows.Forms.DataGridView();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.linesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dDAToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -38,7 +38,7 @@
             this.polygonFillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContainer = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridPoints)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -50,15 +50,15 @@
             this.picCanvas.TabIndex = 0;
             this.picCanvas.TabStop = false;
             // 
-            // dataGridView1
+            // dataGridPoints
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Location = new System.Drawing.Point(712, 151);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 62;
-            this.dataGridView1.RowTemplate.Height = 28;
-            this.dataGridView1.Size = new System.Drawing.Size(468, 552);
-            this.dataGridView1.TabIndex = 6;
+            this.dataGridPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridPoints.Location = new System.Drawing.Point(712, 51);
+            this.dataGridPoints.Name = "dataGridPoints";
+            this.dataGridPoints.RowHeadersWidth = 62;
+            this.dataGridPoints.RowTemplate.Height = 28;
+            this.dataGridPoints.Size = new System.Drawing.Size(468, 652);
+            this.dataGridPoints.TabIndex = 6;
             // 
             // menuStrip1
             // 
@@ -93,7 +93,7 @@
             // bresenhamToolStripMenuItem
             // 
             this.bresenhamToolStripMenuItem.Name = "bresenhamToolStripMenuItem";
-            this.bresenhamToolStripMenuItem.Size = new System.Drawing.Size(270, 34);
+            this.bresenhamToolStripMenuItem.Size = new System.Drawing.Size(201, 34);
             this.bresenhamToolStripMenuItem.Text = "Bresenham";
             this.bresenhamToolStripMenuItem.Click += new System.EventHandler(this.bresenhamToolStripMenuItem_Click);
             // 
@@ -124,14 +124,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1192, 728);
             this.Controls.Add(this.panelContainer);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dataGridPoints);
             this.Controls.Add(this.picCanvas);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridPoints)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -142,7 +142,7 @@
         #endregion
 
         private System.Windows.Forms.PictureBox picCanvas;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dataGridPoints;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem linesToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dDAToolStripMenuItem;
