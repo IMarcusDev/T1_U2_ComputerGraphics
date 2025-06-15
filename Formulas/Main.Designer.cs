@@ -52,6 +52,7 @@
             // 
             // dataGridPoints
             // 
+            this.dataGridPoints.BackgroundColor = System.Drawing.Color.LightGoldenrodYellow;
             this.dataGridPoints.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridPoints.Location = new System.Drawing.Point(712, 51);
             this.dataGridPoints.Name = "dataGridPoints";
@@ -62,6 +63,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.BackColor = System.Drawing.Color.SandyBrown;
             this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -122,11 +124,13 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.Bisque;
             this.ClientSize = new System.Drawing.Size(1192, 728);
             this.Controls.Add(this.panelContainer);
             this.Controls.Add(this.dataGridPoints);
             this.Controls.Add(this.picCanvas);
             this.Controls.Add(this.menuStrip1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Main";
             this.Text = "Form1";

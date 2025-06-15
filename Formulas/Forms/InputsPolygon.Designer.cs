@@ -38,15 +38,16 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(30, 29);
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
+            this.label1.Location = new System.Drawing.Point(22, 34);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(53, 20);
+            this.label1.Size = new System.Drawing.Size(79, 29);
             this.label1.TabIndex = 0;
             this.label1.Text = "Lados";
             // 
             // txtNumLados
             // 
-            this.txtNumLados.Location = new System.Drawing.Point(90, 29);
+            this.txtNumLados.Location = new System.Drawing.Point(107, 35);
             this.txtNumLados.Name = "txtNumLados";
             this.txtNumLados.Size = new System.Drawing.Size(140, 26);
             this.txtNumLados.TabIndex = 1;
@@ -54,22 +55,23 @@
             // label2
             // 
             this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.label2.Location = new System.Drawing.Point(253, 31);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 20);
+            this.label2.Size = new System.Drawing.Size(112, 29);
             this.label2.TabIndex = 2;
             this.label2.Text = "Magnitud";
             // 
             // txtMagnitud
             // 
-            this.txtMagnitud.Location = new System.Drawing.Point(348, 28);
+            this.txtMagnitud.Location = new System.Drawing.Point(371, 34);
             this.txtMagnitud.Name = "txtMagnitud";
             this.txtMagnitud.Size = new System.Drawing.Size(159, 26);
             this.txtMagnitud.TabIndex = 3;
             // 
             // btnDraw
             // 
-            this.btnDraw.Location = new System.Drawing.Point(538, 24);
+            this.btnDraw.Location = new System.Drawing.Point(561, 25);
             this.btnDraw.Name = "btnDraw";
             this.btnDraw.Size = new System.Drawing.Size(75, 35);
             this.btnDraw.TabIndex = 4;
@@ -81,6 +83,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.SandyBrown;
             this.Controls.Add(this.btnDraw);
             this.Controls.Add(this.txtMagnitud);
             this.Controls.Add(this.label2);

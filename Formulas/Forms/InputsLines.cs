@@ -43,7 +43,7 @@ namespace Formulas.Forms
 
             if (!IsValidCoordinate(x1, y1) || !IsValidCoordinate(x2, y2))
             {
-                MessageBox.Show("Las coordenadas deben estar dentro del área del canvas (0-799, 0-599).", "Error de entrada");
+                MessageBox.Show("Las coordenadas deben estar dentro del área del canvas.", "Error de entrada");
                 return;
             }
 

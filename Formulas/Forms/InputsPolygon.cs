@@ -55,12 +55,6 @@ namespace Formulas.Forms
             OnDrawClicked?.Invoke(lados, magnitud, this.center);
         }
 
-        private bool IsValidCoordinate(float x, float y)
-        {
-            int maxW = 658, maxH = 552;
-            return x >= 0 && x < maxW && y >= 0 && y < maxH;
-        }
-
         private void OnlyNumbers_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && e.KeyChar != '-' && e.KeyChar != '.')
