@@ -28,6 +28,7 @@ namespace Formulas
         private InputsLines inputsLines;
         private InputsLines inputsLinesBresenham;
         private InputsPolygon inputsPolygon;
+        private InputsPolygonParallel inputsPolygonParallel;
         private InputsCircunference inputsCircunference;
 
         public Main()
@@ -40,12 +41,14 @@ namespace Formulas
             inputsLines = new InputsLines();
             inputsLinesBresenham = new InputsLines();
             inputsPolygon = new InputsPolygon(getCenter());
+            inputsPolygonParallel = new InputsPolygonParallel(getCenter());
             inputsCircunference = new InputsCircunference();
 
             inputsLines.OnDrawClicked += InputsLines_OnDrawClicked;
             inputsLinesBresenham.OnDrawClicked += InputsLinesBresenham_OnDrawClicked;
             inputsPolygon.OnDrawClicked += InputsPolygon_OnDrawClicked;
             inputsCircunference.OnDrawClicked += CircunferenceBresenham_OnDrawClicked;
+            inputsPolygonParallel.OnDrawClicked += InputsPolygonParallel_OnDrawClicked;
 
             dataGridPoints.Columns.Clear();
             dataGridPoints.Columns.Add("#", "#");
@@ -55,6 +58,7 @@ namespace Formulas
             dataGridPoints.AllowUserToAddRows = false;
             dataGridPoints.AllowUserToDeleteRows = false;
             dataGridPoints.ReadOnly = true;
+            dataGridPoints.RowHeadersVisible = false;
         }
 
         private void ShowPointsInGrid(Point[] points)
@@ -161,6 +165,57 @@ namespace Formulas
             animationTimer.Start();
         }
 
+        private void PlayFramesCircle()
+        {
+            if (framesCopy.Count == 0)
+                return;
+
+            IndexAnimation = 0;
+
+            if (animationTimer == null)
+            {
+                animationTimer = new Timer();
+                animationTimer.Interval = 20;
+                animationTimer.Tick += AnimationTimer_Tick;
+            }
+
+            animationTimer.Start();
+        }
+
+        private void PlayFramesToFill()
+        {
+            if (framesCopy.Count == 0)
+                return;
+
+            IndexAnimation = 0;
+
+            if (animationTimer == null)
+            {
+                animationTimer = new Timer();
+                animationTimer.Interval = 10;
+                animationTimer.Tick += AnimationTimer_Tick;
+            }
+
+            animationTimer.Start();
+        }
+        
+        private void PlayFramesToFillParallel()
+        {
+            if (framesCopy.Count == 0)
+                return;
+
+            IndexAnimation = 0;
+
+            if (animationTimer == null)
+            {
+                animationTimer = new Timer();
+                animationTimer.Interval = 2;
+                animationTimer.Tick += AnimationTimer_Tick;
+            }
+
+            animationTimer.Start();
+        }
+
         private void AnimationTimer_Tick(object sender, EventArgs e)
         {
             if (IndexAnimation <= framesCopy.Count)
@@ -236,6 +291,11 @@ namespace Formulas
             openChildForm(this.inputsLinesBresenham);
         }
 
+        private void iterativoConParalelismoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openChildForm(this.inputsPolygonParallel);
+        }
+
         private void InputsLines_OnDrawClicked(Point p1, Point p2)
         {
             lastPolygonOutline = null;
@@ -268,7 +328,7 @@ namespace Formulas
             Point[] circlePointsUnique = GetCirclePointsUnique(xc, yc, r);
             framesCopy.Clear();
             ensureFramesUpToCircunference(circlePointsUnique.Length, circlePointsUnique);
-            PlayFrames();
+            PlayFramesCircle();
             ShowPointsInGrid(circlePointsUnique);
         }
 
@@ -290,8 +350,30 @@ namespace Formulas
 
             framesCopy.Clear();
             ensureFramesUpToFill(filledPixels.Length, filledPixels);
-            PlayFrames();
+            PlayFramesToFill();
             ShowPointsInGrid(filledPixels);
         }
+
+        private void InputsPolygonParallel_OnDrawClicked(int lados, float magnitud, PointF center)
+        {
+            polygon = new Polygon(lados, magnitud, center);
+            PointF[] points = polygon.GetOutline();
+            lastPolygonOutline = points;
+
+            using (Graphics g = Graphics.FromImage(picCanvasCopy))
+            {
+                g.Clear(Color.White);
+                g.DrawPolygon(pen, points);
+            }
+
+            Point seed = new Point((int)center.X, (int)center.Y);
+
+            Point[] filledPixels = FillAlgorithm.Iterative_Parallel_Flood_Fill(picCanvasCopy, seed.X, seed.Y, Color.Blue);
+
+            framesCopy.Clear();
+            ensureFramesUpToFill(filledPixels.Length, filledPixels);
+            PlayFramesToFillParallel();
+            ShowPointsInGrid(filledPixels);
+        } 
     }
 }

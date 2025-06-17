@@ -34,21 +34,21 @@ namespace Formulas.clases
             int sx = x0 < x1 ? 1 : -1;
             int sy = y0 < y1 ? 1 : -1;
 
-            int err = dx - dy;
+            int p = dx - dy;
 
             while (true)
             {
                 points.Add(new Point(x0, y0));
                 if (x0 == x1 && y0 == y1) break;
-                int e2 = 2 * err;
-                if (e2 >= -dy)
+                int p2 = 2 * p;
+                if (p2 >= -dy)
                 {
-                    err -= dy;
+                    p -= dy;
                     x0 += sx;
                 }
-                if (e2 < dx)
+                if (p2 < dx)
                 {
-                    err += dx;
+                    p += dx;
                     y0 += sy;
                 }
             }

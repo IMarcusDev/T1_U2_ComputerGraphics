@@ -37,6 +37,8 @@
             this.circunferenceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.polygonFillToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContainer = new System.Windows.Forms.Panel();
+            this.recursivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.iterativoConParalelismoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.picCanvas)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridPoints)).BeginInit();
             this.menuStrip1.SuspendLayout();
@@ -108,10 +110,12 @@
             // 
             // polygonFillToolStripMenuItem
             // 
+            this.polygonFillToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.recursivoToolStripMenuItem,
+            this.iterativoConParalelismoToolStripMenuItem});
             this.polygonFillToolStripMenuItem.Name = "polygonFillToolStripMenuItem";
             this.polygonFillToolStripMenuItem.Size = new System.Drawing.Size(119, 29);
             this.polygonFillToolStripMenuItem.Text = "Polygon Fill";
-            this.polygonFillToolStripMenuItem.Click += new System.EventHandler(this.polygonFillToolStripMenuItem_Click);
             // 
             // panelContainer
             // 
@@ -119,6 +123,20 @@
             this.panelContainer.Name = "panelContainer";
             this.panelContainer.Size = new System.Drawing.Size(658, 94);
             this.panelContainer.TabIndex = 8;
+            // 
+            // recursivoToolStripMenuItem
+            // 
+            this.recursivoToolStripMenuItem.Name = "recursivoToolStripMenuItem";
+            this.recursivoToolStripMenuItem.Size = new System.Drawing.Size(309, 34);
+            this.recursivoToolStripMenuItem.Text = "Recursivo";
+            this.recursivoToolStripMenuItem.Click += new System.EventHandler(this.polygonFillToolStripMenuItem_Click);
+            // 
+            // iterativoConParalelismoToolStripMenuItem
+            // 
+            this.iterativoConParalelismoToolStripMenuItem.Name = "iterativoConParalelismoToolStripMenuItem";
+            this.iterativoConParalelismoToolStripMenuItem.Size = new System.Drawing.Size(309, 34);
+            this.iterativoConParalelismoToolStripMenuItem.Text = "Iterativo con paralelismo";
+            this.iterativoConParalelismoToolStripMenuItem.Click += new System.EventHandler(this.iterativoConParalelismoToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -154,6 +172,8 @@
         private System.Windows.Forms.ToolStripMenuItem circunferenceToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem polygonFillToolStripMenuItem;
         private System.Windows.Forms.Panel panelContainer;
+        private System.Windows.Forms.ToolStripMenuItem recursivoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem iterativoConParalelismoToolStripMenuItem;
     }
 }
 

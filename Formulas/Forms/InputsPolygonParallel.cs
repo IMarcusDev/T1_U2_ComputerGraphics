@@ -10,12 +10,12 @@ using System.Windows.Forms;
 
 namespace Formulas.Forms
 {
-    public partial class InputsPolygon : UserControl
+    public partial class InputsPolygonParallel : UserControl
     {
         public event Action<int, float, PointF> OnDrawClicked;
         private PointF center;
-
-        public InputsPolygon(PointF center)
+        
+        public InputsPolygonParallel(PointF center)
         {
             InitializeComponent();
 
@@ -46,12 +46,12 @@ namespace Formulas.Forms
                 MessageBox.Show("El polígono debe tener al menos 3 lados.", "Error de entrada");
                 return;
             }
-            if (magnitud <= 0 || magnitud >= 50)
+            if (magnitud <= 0)
             {
-                MessageBox.Show("La magnitud debe ser mayor que cero y menor que 50.", "Error de entrada");
+                MessageBox.Show("La magnitud debe ser mayor que cero.", "Error de entrada");
                 return;
             }
-            
+
             OnDrawClicked?.Invoke(lados, magnitud, this.center);
         }
 
